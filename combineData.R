@@ -38,4 +38,5 @@ Vehicles_df <- Vehicles %>%
 merged_data <- merge(df, Vehicles_df, by = c("Zip_Code", "Year_Month"), all.x = TRUE) %>%
   mutate(Count = ifelse(is.na(Count), 0, Count))
 
+write.csv(merged_data, "merged.csv")
 
