@@ -1,14 +1,8 @@
 ---
-title: "2024 FIRE298 ASN4.1.2. Research Plan"
+title: "Research Question"
 format: gfm
 editor: visual
 ---
-
-The goal of this assignment is to review basic R functions that was taught and review the dataframe that was created to answer each team's research question.
-
-In Week 3's class, each student will work on each step using data from "Defensive Investments and the Impact on Air Quality by Deschenes et al. (2017).
-
-In the lab, each student will make a copy of this document in their team's GitHub repository. Afterward, the team will modify the document to include the dataframe that was developed in the Spring semester.
 
 Step 1. Install necessary packages.
 
@@ -40,11 +34,11 @@ kable(head(df))
 
 ## Question 1: What is the frequency of this data frame?
 
-Answer: yearly, smm (summer)
+Answer:
 
 ## Question 2: What is the cross-sectional (geographical) unit of this data frame?
 
-Answer: state, fips
+Answer:
 
 Step 6. Use the **names** function to display all the variables (column) in the dataframe.
 
@@ -53,17 +47,13 @@ names(df)
 
 ```
 
-In Week 3's class, you will answer each question below based on the research question "How does the NOx Budget Program impact each county's NOx emissions each season?"
-
-In Week 3's lab, you will modify this document to fit your team's research question.
-
 ## Question 3: Which column represents the treatment variable of interest?
 
-Answer: nbp
+Answer:
 
 ## Question 4: Which column represents the outcome variable of interest?
 
-Answer: nox_emit
+Answer:
 
 Step 7: Create a boxplot to visualize the distribution of the outcome variable under treatment and no treatment.
 
@@ -83,11 +73,35 @@ summary(model1)
 
 ## Question 5: What is the predicted value of the outcome variable when treatment=0?
 
-Answer: 0.488
+Answer:
 
 ## Question 6: What is predicted value of the outcome variable when treatment=1?
 
-Answer: 0.84
+Answer:
+
+## Question 7: What is the equation that describes the linear regression above? Please include an explanation of the variables and subscripts.
+
+Answer:
+
+## Question 8: What fixed effects can be included in the regression? What does each fixed effects control for? Please include a new equation that incorporates the fixed effects.
+
+Answer:
+
+# Questions for Week 5
+
+## Question 9: In a difference-in-differences (DiD) model, what is the treatment GROUP?
+
+Answer:
+
+## Question 10: In a DiD model, what are the control groups?
+
+Answer:
+
+## Question 11: What is the DiD regression equation that will answer your research question?
+
+## Question 12: Run your DiD regressions below. What are the results of the DiD regression? 
+
+## Question 13: What are the next steps of your research?
 
 Step 9: Change the document format to gfm
 
