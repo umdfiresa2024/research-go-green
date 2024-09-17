@@ -38,5 +38,18 @@ Vehicles_df <- Vehicles %>%
 merged_data <- merge(df, Vehicles_df, by = c("Zip_Code", "Year_Month"), all.x = TRUE) %>%
   mutate(Count = ifelse(is.na(Count), 0, Count))
 
-write.csv(merged_data, "merged.csv")
+merged_data <- merged_data %>%
+  mutate(Date = paste0(Year_Month, "/01")) %>%
+  mutate(Date = as.Date(Date, format = "%Y/%m/%d"))
 
+merged_data <- merged_data %>%
+  group_by(Date, Company) %>%
+  mutate(StationRebate = case_when(
+    Company == "Southern Maryland Electric Cooperative Inc." ~ ifelse(Date >= as.Date("2021-03-01"), 1, 0),
+    Company == "Potomac Electric Power Co" ~ ifelse(Date >= as.Date("2019-07-01"), 1, 0),
+    Company == "Baltimore Gas & Electric Co" ~ ifelse(Date >= as.Date("2021-01-01"), 1, 0),
+    Company == "The Potomac Edison Company" ~ ifelse(Date >= as.Date("2020-01-01"), 1, 0),
+    Company == "Delmarva Power" ~ ifelse(Date >= as.Date("2019-07-01"), 1, 0)
+  ))
+
+write.csv(merged_data, "merged.csv")
