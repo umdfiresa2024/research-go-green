@@ -1,5 +1,5 @@
 ---
-title: "Research Question"
+title: "What is the impact of utility companies' charging station rebates on EV adoption in Maryland?"
 format: gfm
 editor: visual
 ---
@@ -23,7 +23,8 @@ Step 3. Upload the dataframe that you have created in Spring 2024 into the repos
 Step 4. Open the dataframe into the RStudio Environment.
 
 ```{r}
-df<-read.csv("merged.csv")
+df<-read.csv("merged.csv") %>%
+  select(-X)
 ```
 
 Step 5. Use the **head** and **kable** function showcase the first 10 rows of the dataframe to the reader.
@@ -34,7 +35,7 @@ kable(head(df))
 
 ## Question 1: What is the frequency of this data frame?
 
-Answer: Monthly from 7/2020 to 2/2024
+Answer: Monthly from 7/2020 to 8/2024
 
 ## Question 2: What is the cross-sectional (geographical) unit of this data frame?
 
@@ -76,28 +77,42 @@ ggplot(df_SMECO, aes(x=Count)) +
 Step 8: Fit a regression model $y=\beta_0 + \beta_1 x + \epsilon$ where $y$ is the outcome variable and $x$ is the treatment variable. Use the **summary** function to display the results.
 
 ```{r}
-model1<-lm(nox_emit ~ nbp, data=df)
+data_combined<- rbind(df_BGE, df_SMECO)
+model1<-lm(Count ~ StationRebate, data=data_combined)
 
 summary(model1)
 ```
 
 ## Question 5: What is the predicted value of the outcome variable when treatment=0?
 
-Answer:
+Answer: 51
 
 ## Question 6: What is predicted value of the outcome variable when treatment=1?
 
-Answer:
+Answer: 126
 
 ## Question 7: What is the equation that describes the linear regression above? Please include an explanation of the variables and subscripts.
 
-Answer:
+Answer: $$
+Count = \beta_0 + \beta_1 StationRebate + \epsilon
+$$
+y = 74.820x + 51.147
+51.147 is the intercept (average EV count sales when no station rebates), and 74.820 is the slope and what the EV count increases by when there are station rebates
 
 ## Question 8: What fixed effects can be included in the regression? What does each fixed effects control for? Please include a new equation that incorporates the fixed effects.
 
-Answer:
+Answer: Fixed effects include Month/Year, Zipcode, Company, and Date
 
 \## Question 9: What is the impact of the treatment effect once fixed effects are included?
+
+```{r}
+install.packages("lfe")
+library("lfe")
+
+model2<-felm(Count ~ StationRebate | Zip_Code + Year_Month + Company + Date,data=data_combined)
+
+summary(model2)
+```
 
 Answer:
 
