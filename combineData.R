@@ -53,3 +53,10 @@ merged_data <- merged_data %>%
   ))
 
 write.csv(merged_data, "merged.csv")
+
+temp <- merged_data %>%
+  group_by(Zip_Code, Company) %>%
+  summarize(mean = mean(Count))
+
+Vehicles_Zipcodes <- unique(Vehicles$Zip_Code)
+ZipCodes_zip <- unique(ZipCodes$Zip_Code)

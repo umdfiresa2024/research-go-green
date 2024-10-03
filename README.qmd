@@ -77,8 +77,8 @@ ggplot(df_SMECO, aes(x=Count)) +
 Step 8: Fit a regression model $y=\beta_0 + \beta_1 x + \epsilon$ where $y$ is the outcome variable and $x$ is the treatment variable. Use the **summary** function to display the results.
 
 ```{r}
-data_combined<- rbind(df_BGE, df_SMECO)
-model1<-lm(Count ~ StationRebate, data=data_combined)
+#data_combined<- rbind(df_BGE, df_SMECO)
+model1<-lm(Count ~ StationRebate, data=df)
 
 summary(model1)
 ```
@@ -89,19 +89,21 @@ Answer: 51
 
 ## Question 6: What is predicted value of the outcome variable when treatment=1?
 
-Answer: 126
+Answer: 99
 
 ## Question 7: What is the equation that describes the linear regression above? Please include an explanation of the variables and subscripts.
 
 Answer: $$
-Count = \beta_0 + \beta_1 StationRebate + \epsilon
-$$
-y = 74.820x + 51.147
-51.147 is the intercept (average EV count sales when no station rebates), and 74.820 is the slope and what the EV count increases by when there are station rebates
+y_{it} = \beta_0 + \beta_1 x_{it} + \epsilon_{it}
+$$ y = 51.147 + 47.788x
+
+51.147 is the intercept (average EV count sales when no station rebates), and 47.788 is the slope and what the EV count increases by when there are station rebates
+
+$y_{it}$ represents the EV Sales (count) variable in zipcode $i$ (in Maryland) at time $t$ Month/Year
 
 ## Question 8: What fixed effects can be included in the regression? What does each fixed effects control for? Please include a new equation that incorporates the fixed effects.
 
-Answer: Fixed effects include Month/Year, Zipcode, Company, and Date
+Answer: Fixed effects include Month, Year, Zipcode, Company, and Date
 
 \## Question 9: What is the impact of the treatment effect once fixed effects are included?
 
@@ -109,7 +111,12 @@ Answer: Fixed effects include Month/Year, Zipcode, Company, and Date
 install.packages("lfe")
 library("lfe")
 
-model2<-felm(Count ~ StationRebate | Zip_Code + Year_Month + Company + Date,data=data_combined)
+df_2 <- df %>%
+  mutate(date=as.Date(Date)) %>%
+  mutate(month = month(date), year = year(date)) %>%
+  select(-c(Year_Month, Date))
+           
+model2<-felm(Count ~ StationRebate | Zip_Code + month + year + Company,data=df_2)
 
 summary(model2)
 ```
