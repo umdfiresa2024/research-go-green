@@ -1,7 +1,7 @@
 library(tidyverse)
 
 Vehicles <- read.csv("Vehicles.csv")
-ZipCodes <- read.csv("Zip_Codes.csv")
+ZipCodes <- read.csv("Zip_Codes.csv") #electric company-zip codes data
 
 #only include zipcodes that fall under one company
 unique_ZipCodes <- ZipCodes %>%
@@ -24,9 +24,14 @@ ZipCodes_df2 <- left_join(unique_ZipCodes, ZipCodes_df, by = "Zip_Code") %>%
   select(-c(obs, n))
 
 unique_month <- unique(Vehicles$Year_Month)
+unique_zip_car<-unique(Vehicles$Zip_Code)
+
+#select only zip codes that apprea in car sales data
+ZipCodes_df3<-ZipCodes_df2 %>% 
+  filter(Zip_Code %in% unique_zip_car)
 
 #create a row for each zipcode and year/month
-df<- crossing(ZipCodes_df2, unique_month) %>% rename(Year_Month = unique_month)
+df<- crossing(ZipCodes_df3, unique_month) %>% rename(Year_Month = unique_month)
 
 #combine electric and plug in hybrid values
 Vehicles_df <- Vehicles %>%
@@ -36,11 +41,11 @@ Vehicles_df <- Vehicles %>%
 merged_data <- merge(df, Vehicles_df, by = c("Zip_Code", "Year_Month"), all.x = TRUE) %>%
   mutate(Count = ifelse(is.na(Count), 0, Count))
 
-merged_data <- merged_data %>%
+merged_data2 <- merged_data %>%
   mutate(Date = paste0(Year_Month, "/01")) %>%
   mutate(Date = as.Date(Date, format = "%Y/%m/%d"))
 
-merged_data <- merged_data %>%
+merged_data3 <- merged_data2 %>%
   group_by(Date, Company) %>%
   mutate(StationRebate = case_when(
     Company == "Southern Maryland Electric Cooperative Inc." ~ ifelse(Date >= as.Date("2021-03-01"), 1, 0),
@@ -50,7 +55,7 @@ merged_data <- merged_data %>%
     Company == "Delmarva Power" ~ ifelse(Date >= as.Date("2019-07-01"), 1, 0)
   ))
 
-write.csv(merged_data, "merged.csv")
+write.csv(merged_data3, "merged.csv")
 
 temp <- merged_data %>%
   group_by(Zip_Code, Company) %>%
@@ -58,3 +63,5 @@ temp <- merged_data %>%
 
 Vehicles_Zipcodes <- unique(Vehicles$Zip_Code)
 ZipCodes_zip <- unique(ZipCodes$Zip_Code)
+
+
