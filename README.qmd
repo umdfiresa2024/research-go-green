@@ -23,8 +23,7 @@ Step 3. Upload the dataframe that you have created in Spring 2024 into the repos
 Step 4. Open the dataframe into the RStudio Environment.
 
 ```{r}
-df<-read.csv("merged.csv") %>%
-  select(-X)
+df<-read.csv("panel (1).csv")
 ```
 
 Step 5. Use the **head** and **kable** function showcase the first 10 rows of the dataframe to the reader.
@@ -35,7 +34,7 @@ kable(head(df))
 
 ## Question 1: What is the frequency of this data frame?
 
-Answer: Monthly from 7/2020 to 8/2024
+Answer: Semi-annually from 2016 - 2023
 
 ## Question 2: What is the cross-sectional (geographical) unit of this data frame?
 
@@ -50,60 +49,59 @@ names(df)
 
 ## Question 3: Which column represents the treatment variable of interest?
 
-Answer: StationRebate
+Answer: Rebate columns for all electric companies
 
 ## Question 4: Which column represents the outcome variable of interest?
 
-Answer: Count (EV Sales)
+Answer: Vehicle.Count (EV Sales)
 
 Step 7: Create a boxplot to visualize the distribution of the outcome variable under treatment and no treatment.
 
 ```{r}
-df_BGE <- df %>%
-  filter(Company == "Baltimore Gas & Electric Co")
-
-df_SMECO <- df %>%
-  filter(Company == "Southern Maryland Electric Cooperative Inc.")
-
-ggplot(df_BGE, aes(x=Count)) +
-  geom_histogram() +
-  facet_wrap(~StationRebate)
-
-ggplot(df_SMECO, aes(x=Count)) +
-  geom_histogram() +
-  facet_wrap(~StationRebate)
+df2 <- df %>%
+  mutate(Registration.Date = as.Date(Registration.Date)) %>%
+  filter(Registration.Date <= as.Date("2022-06-01")) %>%
+  group_by(Registration.Date, NAME) %>%
+  summarize(Total_EV = sum(Vehicle.Count))
+ggplot(df2, aes(x = Registration.Date, y = Total_EV, color = NAME)) + geom_line()
 ```
 
 Step 8: Fit a regression model $y=\beta_0 + \beta_1 x + \epsilon$ where $y$ is the outcome variable and $x$ is the treatment variable. Use the **summary** function to display the results.
 
 ```{r}
+
+glimpse(df)
+
+df2 <- df %>%
+  mutate(Registration.Date = as.Date(Registration.Date)) %>%
+  filter(Registration.Date <= as.Date("2022-06-01")) 
+  
+  
 #data_combined<- rbind(df_BGE, df_SMECO)
-model1<-lm(Count ~ StationRebate, data=df)
+model1<-lm(Vehicle.Count ~ AEC*AEC_Rebate + PSEG*PSEG_Rebate, data=df2)
 
 summary(model1)
 ```
 
 ## Question 5: What is the predicted value of the outcome variable when treatment=0?
 
-Answer: 51
+Answer: 36 EV sales per zip code per 6 months
 
 ## Question 6: What is predicted value of the outcome variable when treatment=1?
 
-Answer: 99
+Answer: AEC = 28(decreased), PSEG = 103(increased)
 
 ## Question 7: What is the equation that describes the linear regression above? Please include an explanation of the variables and subscripts.
 
 Answer: $$
-y_{it} = \beta_0 + \beta_1 x_{it} + \epsilon_{it}
-$$ y = 51.147 + 47.788x
+y = \beta_0 + \beta_1 AEC + \beta_2 AECRebate + \beta_3 AEC*AECRebate + \beta_4  + \beta_5 PSEG + \beta_6 PSEGRebate + \beta_7 PSEG*PSEGRebate
+$$
 
-51.147 is the intercept (average EV count sales when no station rebates), and 47.788 is the slope and what the EV count increases by when there are station rebates
-
-$y_{it}$ represents the EV Sales (count) variable in zipcode $i$ (in Maryland) at time $t$ Month/Year
+y represents the expected amount of vechile sales in the zip codes covered by AEC and PSEG in New Jersey
 
 ## Question 8: What fixed effects can be included in the regression? What does each fixed effects control for? Please include a new equation that incorporates the fixed effects.
 
-Answer: Fixed effects include Month, Year, Zipcode, Company, and Date
+Answer: Fixed effects include Zipcode, Company, Semi-annual Indicator, Year
 
 \## Question 9: What is the impact of the treatment effect once fixed effects are included?
 
@@ -111,12 +109,12 @@ Answer: Fixed effects include Month, Year, Zipcode, Company, and Date
 install.packages("lfe")
 library("lfe")
 
-df_2 <- df %>%
-  mutate(date=as.Date(Date)) %>%
-  mutate(month = month(date), year = year(date)) %>%
-  select(-c(Year_Month, Date))
+df3<-df2 %>%
+  mutate(H2=ifelse(str_detect(Registration.Date, "12"), 1, 0)) %>%
+  mutate(year=year(Registration.Date))
            
-model2<-felm(Count ~ StationRebate | Zip_Code + month + year + Company,data=df_2)
+model2<-felm(Vehicle.Count ~ AEC*AEC_Rebate + PSEG*PSEG_Rebate +H2| 
+               ZIP.Code + year, data=df3)
 
 summary(model2)
 ```
@@ -127,15 +125,11 @@ Answer:
 
 ## Question 10: In a difference-in-differences (DiD) model, what is the treatment GROUP?
 
-Answer:
+Answer: Zip codes covered by AEC and PSEG
 
 ## Question 11: In a DiD model, what are the control groups?
 
-Answer:
-
-## Question 12: What is the DiD regression equation that will answer your research question?
-
-## Question 13: Run your DiD regressions below. What are the results of the DiD regression?
+Answer: Zip codes covered by OR and JCPL
 
 ## Question 14: What are the next steps of your research?
 
