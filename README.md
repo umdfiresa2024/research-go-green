@@ -1,5 +1,4 @@
-# What is the impact of utility companies’ charging station rebates on
-EV adoption in New Jersey?
+# What is the impact of utility companies’ charging station rebates on EV adoption in New Jersey?
 
 
 ## Introduction:
