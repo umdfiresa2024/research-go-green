@@ -60,10 +60,14 @@ Step 7: Create a boxplot to visualize the distribution of the outcome variable u
 ```{r}
 df2 <- df %>%
   mutate(Registration.Date = as.Date(Registration.Date)) %>%
-  filter(Registration.Date <= as.Date("2022-06-01")) %>%
-  group_by(Registration.Date, NAME) %>%
+  filter(Registration.Date < as.Date("2022-06-01")) %>%
+  group_by(Registration.Date, NAME, AEC_Rebate, PSEG_Rebate, AEC, PSEG) %>%
   summarize(Total_EV = sum(Vehicle.Count))
+
 ggplot(df2, aes(x = Registration.Date, y = Total_EV, color = NAME)) + geom_line()
+
+model1<-lm(Total_EV ~ AEC*AEC_Rebate + PSEG*PSEG_Rebate, data=df2)
+summary(model1)
 ```
 
 Step 8: Fit a regression model $y=\beta_0 + \beta_1 x + \epsilon$ where $y$ is the outcome variable and $x$ is the treatment variable. Use the **summary** function to display the results.
@@ -72,15 +76,10 @@ Step 8: Fit a regression model $y=\beta_0 + \beta_1 x + \epsilon$ where $y$ is t
 
 glimpse(df)
 
-df2 <- df %>%
-  mutate(Registration.Date = as.Date(Registration.Date)) %>%
-  filter(Registration.Date <= as.Date("2022-06-01")) 
-  
-  
-#data_combined<- rbind(df_BGE, df_SMECO)
-model1<-lm(Vehicle.Count ~ AEC*AEC_Rebate + PSEG*PSEG_Rebate, data=df2)
+#df2 <- df %>%
+ # mutate(Registration.Date = as.Date(Registration.Date)) %>%
+  #filter(Registration.Date < as.Date("2022-06-01")) 
 
-summary(model1)
 ```
 
 ## Question 5: What is the predicted value of the outcome variable when treatment=0?
@@ -106,17 +105,22 @@ Answer: Fixed effects include Zipcode, Company, Semi-annual Indicator, Year
 \## Question 9: What is the impact of the treatment effect once fixed effects are included?
 
 ```{r}
-install.packages("lfe")
+#install.packages("lfe")
 library("lfe")
 
-df3<-df2 %>%
-  mutate(H2=ifelse(str_detect(Registration.Date, "12"), 1, 0)) %>%
-  mutate(year=year(Registration.Date))
-           
-model2<-felm(Vehicle.Count ~ AEC*AEC_Rebate + PSEG*PSEG_Rebate +H2| 
-               ZIP.Code + year, data=df3)
 
-summary(model2)
+df4 <- df2 %>%
+  filter(NAME == "Jersey Central Power & Light" | NAME == "Public Service Electric & Gas Co.")
+  
+model3 <- felm(Total_EV ~ PSEG*PSEG_Rebate, data=df4)
+summary(model3)
+
+df5 <- df2 %>%
+  filter (NAME == "Atlantic City Electric" | NAME == "Rockland Electric Company")
+
+model4 <- felm(Total_EV ~ AEC*AEC_Rebate, data=df5)
+summary(model4)
+
 ```
 
 Answer:

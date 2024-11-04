@@ -106,19 +106,49 @@ variable under treatment and no treatment.
 ``` r
 df2 <- df %>%
   mutate(Registration.Date = as.Date(Registration.Date)) %>%
-  filter(Registration.Date <= as.Date("2022-06-01")) %>%
-  group_by(Registration.Date, NAME) %>%
+  filter(Registration.Date < as.Date("2022-06-01")) %>%
+  group_by(Registration.Date, NAME, AEC_Rebate, PSEG_Rebate, AEC, PSEG) %>%
   summarize(Total_EV = sum(Vehicle.Count))
 ```
 
-    `summarise()` has grouped output by 'Registration.Date'. You can override using
-    the `.groups` argument.
+    `summarise()` has grouped output by 'Registration.Date', 'NAME', 'AEC_Rebate',
+    'PSEG_Rebate', 'AEC'. You can override using the `.groups` argument.
 
 ``` r
 ggplot(df2, aes(x = Registration.Date, y = Total_EV, color = NAME)) + geom_line()
 ```
 
 ![](README_files/figure-commonmark/unnamed-chunk-6-1.png)
+
+``` r
+model1<-lm(Total_EV ~ AEC*AEC_Rebate + PSEG*PSEG_Rebate, data=df2)
+summary(model1)
+```
+
+
+    Call:
+    lm(formula = Total_EV ~ AEC * AEC_Rebate + PSEG * PSEG_Rebate, 
+        data = df2)
+
+    Residuals:
+       Min     1Q Median     3Q    Max 
+     -9560  -1133  -1105     -3  17316 
+
+    Coefficients:
+                     Estimate Std. Error t value Pr(>|t|)    
+    (Intercept)        1146.0      549.5   2.086 0.040095 *  
+    AEC                 576.4     1563.8   0.369 0.713374    
+    AEC_Rebate         2709.4     1514.4   1.789 0.077252 .  
+    PSEG              13321.1     1475.0   9.031 5.66e-14 ***
+    PSEG_Rebate        -343.7     2019.2  -0.170 0.865260    
+    AEC:AEC_Rebate     -144.9     3484.5  -0.042 0.966921    
+    PSEG:PSEG_Rebate  17469.2     4646.0   3.760 0.000315 ***
+    ---
+    Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+    Residual standard error: 4141 on 83 degrees of freedom
+    Multiple R-squared:  0.631, Adjusted R-squared:  0.6044 
+    F-statistic: 23.66 on 6 and 83 DF,  p-value: 4.058e-16
 
 Step 8: Fit a regression model $y=\beta_0 + \beta_1 x + \epsilon$ where
 $y$ is the outcome variable and $x$ is the treatment variable. Use the
@@ -145,41 +175,10 @@ glimpse(df)
     $ JCPL              <int> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…
 
 ``` r
-df2 <- df %>%
-  mutate(Registration.Date = as.Date(Registration.Date)) %>%
-  filter(Registration.Date <= as.Date("2022-06-01")) 
-  
-  
-#data_combined<- rbind(df_BGE, df_SMECO)
-model1<-lm(Vehicle.Count ~ AEC*AEC_Rebate + PSEG*PSEG_Rebate, data=df2)
-
-summary(model1)
+#df2 <- df %>%
+ # mutate(Registration.Date = as.Date(Registration.Date)) %>%
+  #filter(Registration.Date < as.Date("2022-06-01")) 
 ```
-
-
-    Call:
-    lm(formula = Vehicle.Count ~ AEC * AEC_Rebate + PSEG * PSEG_Rebate, 
-        data = df2)
-
-    Residuals:
-        Min      1Q  Median      3Q     Max 
-    -151.35  -38.02  -17.82    9.18 1404.65 
-
-    Coefficients:
-                     Estimate Std. Error t value Pr(>|t|)    
-    (Intercept)        36.822      2.013  18.288  < 2e-16 ***
-    AEC               -20.261      3.773  -5.370 8.16e-08 ***
-    AEC_Rebate         46.084      4.157  11.086  < 2e-16 ***
-    PSEG               16.200      2.730   5.933 3.12e-09 ***
-    PSEG_Rebate        24.666      5.286   4.666 3.13e-06 ***
-    AEC:AEC_Rebate    -34.125      7.041  -4.847 1.28e-06 ***
-    PSEG:PSEG_Rebate   27.579      6.221   4.433 9.42e-06 ***
-    ---
-    Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-
-    Residual standard error: 92.04 on 6626 degrees of freedom
-    Multiple R-squared:  0.1337,    Adjusted R-squared:  0.1329 
-    F-statistic: 170.5 on 6 and 6626 DF,  p-value: < 2.2e-16
 
 ## Question 5: What is the predicted value of the outcome variable when treatment=0?
 
@@ -207,13 +206,7 @@ Year
 effects are included?
 
 ``` r
-install.packages("lfe")
-```
-
-    Installing package into '/cloud/lib/x86_64-pc-linux-gnu-library/4.4'
-    (as 'lib' is unspecified)
-
-``` r
+#install.packages("lfe")
 library("lfe")
 ```
 
@@ -227,49 +220,66 @@ library("lfe")
         expand, pack, unpack
 
 ``` r
-df3<-df2 %>%
-  mutate(H2=ifelse(str_detect(Registration.Date, "12"), 1, 0)) %>%
-  mutate(year=year(Registration.Date))
-           
-model2<-felm(Vehicle.Count ~ AEC*AEC_Rebate + PSEG*PSEG_Rebate +H2| 
-               ZIP.Code + year, data=df3)
+df4 <- df2 %>%
+  filter(NAME == "Jersey Central Power & Light" | NAME == "Public Service Electric & Gas Co.")
+  
+model3 <- felm(Total_EV ~ PSEG*PSEG_Rebate, data=df4)
+summary(model3)
 ```
-
-    Warning in chol.default(mat, pivot = TRUE, tol = tol): the matrix is either
-    rank-deficient or not positive definite
-
-``` r
-summary(model2)
-```
-
-    Warning in chol.default(mat, pivot = TRUE, tol = tol): the matrix is either
-    rank-deficient or not positive definite
 
 
     Call:
-       felm(formula = Vehicle.Count ~ AEC * AEC_Rebate + PSEG * PSEG_Rebate +      H2 | ZIP.Code + year, data = df3) 
+       felm(formula = Total_EV ~ PSEG * PSEG_Rebate, data = df4) 
 
     Residuals:
         Min      1Q  Median      3Q     Max 
-    -543.56  -13.99    1.43   15.30  684.39 
+    -9861.1 -3565.6  -141.8  2632.1 11569.9 
 
     Coefficients:
                      Estimate Std. Error t value Pr(>|t|)    
-    AEC                   NaN         NA     NaN      NaN    
-    AEC_Rebate            NaN         NA     NaN      NaN    
-    PSEG                  NaN         NA     NaN      NaN    
-    PSEG_Rebate         3.212      3.466   0.927    0.354    
-    H2                  9.012      1.418   6.357 2.21e-10 ***
-    AEC:AEC_Rebate    -34.125      3.766  -9.062  < 2e-16 ***
-    PSEG:PSEG_Rebate   27.579      3.327   8.289  < 2e-16 ***
+    (Intercept)          8819       1927   4.577  0.00031 ***
+    PSEG                 5950       2725   2.184  0.04423 *  
+    PSEG_Rebate         12009       6093   1.971  0.06626 .  
+    PSEG:PSEG_Rebate     7524       8616   0.873  0.39542    
     ---
     Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
-    Residual standard error: 49.23 on 6021 degrees of freedom
-    Multiple R-squared(full model): 0.7748   Adjusted R-squared: 0.752 
-    Multiple R-squared(proj model): 0.05141   Adjusted R-squared: -0.04485 
-    F-statistic(full model):33.91 on 611 and 6021 DF, p-value: < 2.2e-16 
-    F-statistic(proj model): 46.62 on 7 and 6021 DF, p-value: < 2.2e-16 
+    Residual standard error: 5780 on 16 degrees of freedom
+    Multiple R-squared(full model): 0.5663   Adjusted R-squared: 0.4849 
+    Multiple R-squared(proj model): 0.5663   Adjusted R-squared: 0.4849 
+    F-statistic(full model):6.963 on 3 and 16 DF, p-value: 0.003277 
+    F-statistic(proj model): 6.963 on 3 and 16 DF, p-value: 0.003277 
+
+``` r
+df5 <- df2 %>%
+  filter (NAME == "Atlantic City Electric" | NAME == "Rockland Electric Company")
+
+model4 <- felm(Total_EV ~ AEC*AEC_Rebate, data=df5)
+summary(model4)
+```
+
+
+    Call:
+       felm(formula = Total_EV ~ AEC * AEC_Rebate, data = df5) 
+
+    Residuals:
+         Min       1Q   Median       3Q      Max 
+    -1015.38  -388.53     5.75   356.47  1149.62 
+
+    Coefficients:
+                   Estimate Std. Error t value Pr(>|t|)    
+    (Intercept)      1078.2      209.6   5.145 9.78e-05 ***
+    AEC               644.1      296.4   2.173   0.0451 *  
+    AEC_Rebate       1209.8      468.6   2.581   0.0201 *  
+    AEC:AEC_Rebate   1182.9      662.7   1.785   0.0933 .  
+    ---
+    Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+    Residual standard error: 592.8 on 16 degrees of freedom
+    Multiple R-squared(full model): 0.7323   Adjusted R-squared: 0.6821 
+    Multiple R-squared(proj model): 0.7323   Adjusted R-squared: 0.6821 
+    F-statistic(full model):14.59 on 3 and 16 DF, p-value: 7.685e-05 
+    F-statistic(proj model): 14.59 on 3 and 16 DF, p-value: 7.685e-05 
 
 Answer:
 
