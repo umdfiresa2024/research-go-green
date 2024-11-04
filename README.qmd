@@ -1,8 +1,44 @@
 ---
-title: "What is the impact of utility companies' charging station rebates on EV adoption in Maryland?"
+title: "What is the impact of utility companies' charging station rebates on EV adoption in New Jersey?"
 format: gfm
 editor: visual
 ---
+
+## Introduction:
+
+Electric vehicle (EV) adoption is starting to rise and one of the most challenging aspects is the transition between gasoline-powered vehicles to electric ones. In the state of New Jersey, many utility companies are starting to offer rebates and incentives for the purpose of installing EV charging stations in various counties to maintain widespread accessibility (Qmerit, 2024). The rebates are for reducing financial issues and burdens on businesses, property wonders, and other organizations in order to make it easier to install these stations. Lowering the costs and increasing the availability of charging stations through rebate programs, this attracts more EV customers and supports the current ones. Our research is important to society because New Jersey contains a high urban environment (New Jersey’s cleanenergy program, 2020). These charging station rebates lead to clean transportation choices and offer awareness to the public about the importance of positive EV consumption. Using this research to promote property wonders and businesses to understand the relationship between rebates and EV adoption, helps New Jersey’s objectives to reducing greenhouse gasses and promoting healthy energy uses.
+
+## Existing Research:
+
+Electric vehicle (EV) charging rebates are financial incentives that are given by governments and certain organizations to encourage people to acquire electric vehicles. When one applies for a rebate after purchasing an EV charging station, one can receive some money back. This helps promote cleaner transportation options and makes charging stations more affordable and convenient.This study will build on existing findings and delve deeper into the impact of utility companies' charging station rebates on electric vehicle adoption. Despite there being some research done on similar topics, there are noticeable gaps. Certain studies have focused on border areas from a geographical standpoint, or also lack specific information on the impact of rebates on EV adoption rates in New Jersey. Other studies also may not have researched consumer behavior, accessibility affordability, and rebate mechanisms overall. Muehlegger & Rapson (2022) studied EV adoption in California and helped strengthen our data when focusing on New Jersey by using reliable comparisons (Muehlegger & Rapson, 2022). The state of California gives a broader perspective of what the subsidies and purchases of EVs are from another geographic location. Clinton & Steinberg (2019) explained the relationship between financial incentives and EV adoption through its lessons (Clinton & Steinberg, 2019). Our study will address those gaps due to focusing strictly on New Jersey and its direct impact of the rebates on EV adoption.
+
+## Data Description:
+
+### Outcome Variable:
+
+-   The outcome variable is Vehicle.Count (EV sales) in the zip codes covered by AEC and PSEG in New Jersey. This measures the number of electric vehicles registered, which serves as a proxy for EV adoption in response to the treatment (rebate programs).
+
+### Treatment Variable:
+
+-   The treatment variable is the rebate programs offered by the utility companies (AEC_Rebate, PSEG_Rebate). These rebates are intended to incentivize the installation of EV charging stations, which, in turn, could increase EV adoption.
+
+-   **PSEG:**  Electric Vehicle Charging Program which was implemented on June 15, 2022, offers \$1,500 for Level 2 EVSE make-ready infrastructure. \$5,000 discount for utility-side make-ready costs.
+
+-   **Atlantic City Electric:** Residential Charger Rebate Program implemented on February 17, 2021, rebate up to 50% of electrical upgrade costs – or a maximum of \$1,000 – for installing a Level 2 EV charger at home.
+
+### Frequency/Geographic Unit:
+
+-   Frequency: The dataset is semi-annual, with observations collected every six months from 2016 to 2023.
+
+-   Geographic Unit: The data is organized by zip code.
+
+### Treated and Untreated Group:
+
+-   Treated Group: Zip codes served by utility companies that provide rebates, specifically AEC and PSEG.
+
+-   Untreated Group: Zip codes served by utility companies that do not provide rebates, specifically OR (Rockland Electric Company) and JCP&L (Jersey Central Power & Light).
+
+### Data Cleaning and Analysis:
 
 Step 1. Install necessary packages.
 
@@ -32,30 +68,7 @@ Step 5. Use the **head** and **kable** function showcase the first 10 rows of th
 kable(head(df))
 ```
 
-## Question 1: What is the frequency of this data frame?
-
-Answer: Semi-annually from 2016 - 2023
-
-## Question 2: What is the cross-sectional (geographical) unit of this data frame?
-
-Answer: Zipcode
-
-Step 6. Use the **names** function to display all the variables (column) in the dataframe.
-
-```{r}
-names(df)
-
-```
-
-## Question 3: Which column represents the treatment variable of interest?
-
-Answer: Rebate columns for all electric companies
-
-## Question 4: Which column represents the outcome variable of interest?
-
-Answer: Vehicle.Count (EV Sales)
-
-Step 7: Create a boxplot to visualize the distribution of the outcome variable under treatment and no treatment.
+Step 6: Create a boxplot to visualize the distribution of the outcome variable under treatment and no treatment.
 
 ```{r}
 df2 <- df %>%
@@ -70,6 +83,8 @@ model1<-lm(Total_EV ~ AEC*AEC_Rebate + PSEG*PSEG_Rebate, data=df2)
 summary(model1)
 ```
 
+## Preliminary Regression Results:
+
 Step 8: Fit a regression model $y=\beta_0 + \beta_1 x + \epsilon$ where $y$ is the outcome variable and $x$ is the treatment variable. Use the **summary** function to display the results.
 
 ```{r}
@@ -82,27 +97,21 @@ glimpse(df)
 
 ```
 
-## Question 5: What is the predicted value of the outcome variable when treatment=0?
+## Question 1: What is the predicted value of the outcome variable when treatment=0?
 
 Answer: 36 EV sales per zip code per 6 months
 
-## Question 6: What is predicted value of the outcome variable when treatment=1?
+## Question 2: What is predicted value of the outcome variable when treatment=1?
 
 Answer: AEC = 28(decreased), PSEG = 103(increased)
 
-## Question 7: What is the equation that describes the linear regression above? Please include an explanation of the variables and subscripts.
+## Question 3: What is the equation that describes the linear regression above? Please include an explanation of the variables and subscripts.
 
 Answer: $$
 y = \beta_0 + \beta_1 AEC + \beta_2 AECRebate + \beta_3 AEC*AECRebate + \beta_4  + \beta_5 PSEG + \beta_6 PSEGRebate + \beta_7 PSEG*PSEGRebate
 $$
 
 y represents the expected amount of vechile sales in the zip codes covered by AEC and PSEG in New Jersey
-
-## Question 8: What fixed effects can be included in the regression? What does each fixed effects control for? Please include a new equation that incorporates the fixed effects.
-
-Answer: Fixed effects include Zipcode, Company, Semi-annual Indicator, Year
-
-\## Question 9: What is the impact of the treatment effect once fixed effects are included?
 
 ```{r}
 #install.packages("lfe")
@@ -123,26 +132,24 @@ summary(model4)
 
 ```
 
-Answer:
+## Future Plans:
 
-# Questions for Week 5
+Our future plans include a more detailed analysis taking other variables into account. For example, we could look at electricity costs in different seasons to see if that impacts the perceived benefit of EV charging station rebates. We also plan to look at other states and rebate policies based on the data available. This would help us compare our preliminary results of New Jersey to other states to see if trends are similar.
 
-## Question 10: In a difference-in-differences (DiD) model, what is the treatment GROUP?
+## Bibliography:
 
-Answer: Zip codes covered by AEC and PSEG
+Clinton, B. C., & Steinberg, D. C. (2019). Providing the Spark: Impact of financial incentives on battery electric vehicle adoption. Journal of Environmental Economics and Management, 98, 102255. https://doi.org/10.1016/j.jeem.2019.102255 
 
-## Question 11: In a DiD model, what are the control groups?
+Electric Vehicle Incentive Programs \| NJ OCE Web Site. (2020). Njcleanenergy.com. https://www.njcleanenergy.com/ev?gad_source=1&gclid=Cj0KCQiA_qG5BhDTARIsAA0UHSIhzHJDWQ_QdSyRdiJZgAbI6xi1JgecGyTVxcU6rW_Zgq9IrJDr1wAaAh9FEALw_wcB 
 
-Answer: Zip codes covered by OR and JCPL
+EV Residential Charging Program. EV Residential Charging Program - PSE&G. (n.d.). https://nj.myaccount.pseg.com/myservicepublic/electricvehicles-residential-program
 
-## Question 14: What are the next steps of your research?
+EV promotions & tax credits. (n.d.).https://jerseycentral.chooseev.com/promos/#:\~:text=Through%20JCP&L's%20EV%20Driven%20Program,at%20each%20qualifying%20installation%20site
 
-Step 9: Change the document format to gfm
+Muehlegger, E., & Rapson, D. S. (2022). Subsidizing low- and middle-income adoption of electric vehicles: Quasi-experimental evidence from California. Journal of Public Economics, 216(216), 104752. https://doi.org/10.1016/j.jpubeco.2022.104752 
 
-Step 10: Save this document as README.qmd
+New Jersey EV Rebates & Charging Incentives (2024, July). Qmerit. https://qmerit.com/location/new-jersey/ 
 
-Step 11: Render the document. README.md file should be created after this process.
+Orange & Rockland. (n.d.). https://www.oru.com/en/our-energy-future/electric-vehicles/new-jersey/residential-ev-drivers/charger-ready-for-home
 
-Step 12: Push the document back to GitHub and observe your beautiful document in your repository!
-
-Step 13: If your team has a complete dataframe that includes both the treated and outcome variable, you are done with the assignment. If not, make a research plan in Notion to collect data on the outcome and treatment variable and combine it into one dataframe.
+Residential Charger Rebate. Atlantic City Electric. (n.d.). https://www.atlanticcityelectric.com/smart-energy/innovation-technology/residential-charger-rebate
