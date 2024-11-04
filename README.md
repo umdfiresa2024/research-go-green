@@ -251,9 +251,9 @@ Answer: AEC = 28(decreased), PSEG = 103(increased)
 
 ## Question 3: What is the equation that describes the linear regression above? Please include an explanation of the variables and subscripts.
 
-Answer: $$
+Answer: $
 y = \beta_0 + \beta_1 AEC + \beta_2 AECRebate + \beta_3 AEC*AECRebate + \beta_4  + \beta_5 PSEG + \beta_6 PSEGRebate + \beta_7 PSEG*PSEGRebate
-$$
+$
 
 y represents the expected amount of vechile sales in the zip codes
 covered by AEC and PSEG in New Jersey
