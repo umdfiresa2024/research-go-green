@@ -115,10 +115,39 @@ df2 <- df %>%
     'PSEG_Rebate', 'AEC'. You can override using the `.groups` argument.
 
 ``` r
+JCPLandPSEG <- df2 %>%
+  filter(NAME == "Public Service Electric & Gas Co." |
+         NAME == "Jersey Central Power & Light")
+
+ACEandREC <- df2 %>%
+  filter(NAME == "Atlantic City Electric" | 
+         NAME == "Rockland Electric Company")
+
 ggplot(df2, aes(x = Registration.Date, y = Total_EV, color = NAME)) + geom_line()
 ```
 
 ![](README_files/figure-commonmark/unnamed-chunk-6-1.png)
+
+``` r
+ggplot(JCPLandPSEG, aes(x = Registration.Date, y = Total_EV, color = NAME)) + geom_line() + geom_vline(xintercept = as.Date("2021-06-15"), linetype = "dashed") + theme(legend.position = c(0.3, 0.8)) + 
+  scale_color_manual(values = c("Public Service Electric & Gas Co." = "purple", 
+  "Jersey Central Power & Light" = "cyan4")) +
+  labs(y="Total EV Sales", x="Date", color = "Utility Companies")
+```
+
+    Warning: A numeric `legend.position` argument in `theme()` was deprecated in ggplot2
+    3.5.0.
+    ℹ Please use the `legend.position.inside` argument of `theme()` instead.
+
+![](README_files/figure-commonmark/unnamed-chunk-6-2.png)
+
+``` r
+ggplot(ACEandREC, aes(x = Registration.Date, y = Total_EV, color = NAME)) + geom_line() + geom_vline(xintercept = as.Date("2021-02-01"), linetype = "dashed") + theme(legend.position = c(0.3, 0.8)) + scale_color_manual(values = c("Atlantic City Electric" = "purple", 
+  "Rockland Electric Company" = "cyan4")) +
+  labs(y="Total EV Sales", x="Date", color = "Utility Companies")
+```
+
+![](README_files/figure-commonmark/unnamed-chunk-6-3.png)
 
 ``` r
 model1<-lm(Total_EV ~ AEC*AEC_Rebate + PSEG*PSEG_Rebate, data=df2)
