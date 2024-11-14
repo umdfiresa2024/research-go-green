@@ -1,4 +1,5 @@
-# What is the impact of utility companies’ charging station rebates on EV adoption in New Jersey?
+# What is the impact of utility companies’ charging station rebates on
+EV adoption in New Jersey?
 
 
 ## Introduction:
@@ -106,35 +107,6 @@ data-fig-align="center" width="161" />
 
 ### Data Cleaning and Analysis:
 
-    ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
-    ✔ dplyr     1.1.4     ✔ readr     2.1.5
-    ✔ forcats   1.0.0     ✔ stringr   1.5.1
-    ✔ ggplot2   3.5.1     ✔ tibble    3.2.1
-    ✔ lubridate 1.9.3     ✔ tidyr     1.3.1
-    ✔ purrr     1.0.2     
-    ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
-    ✖ dplyr::filter() masks stats::filter()
-    ✖ dplyr::lag()    masks stats::lag()
-    ℹ Use the conflicted package (<http://conflicted.r-lib.org/>) to force all conflicts to become errors
-
-    Attaching package: 'kableExtra'
-
-
-    The following object is masked from 'package:dplyr':
-
-        group_rows
-
-
-    Loading required package: Matrix
-
-
-    Attaching package: 'Matrix'
-
-
-    The following objects are masked from 'package:tidyr':
-
-        expand, pack, unpack
-
 Step 1: Show the initial dataframe
 
 ``` r
@@ -190,10 +162,6 @@ ggplot(ACEandREC, aes(x = Registration.Date, y = Total_EV, color = NAME)) + geom
 
 ## Preliminary Regression Results:
 
-Step 8: Fit a regression model $y=\beta_0 + \beta_1 x + \epsilon$ where
-$y$ is the outcome variable and $x$ is the treatment variable. Use the
-**summary** function to display the results.
-
     Rows: 8,442
     Columns: 13
     $ X                 <int> 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 1…
@@ -210,29 +178,12 @@ $y$ is the outcome variable and $x$ is the treatment variable. Use the
     $ JCPL_Rebate       <int> 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1…
     $ JCPL              <int> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…
 
-## Question 1: What is the predicted value of the outcome variable when treatment=0?
-
-Answer: 36 EV sales per zip code per 6 months
-
-## Question 2: What is predicted value of the outcome variable when treatment=1?
-
-Answer: AEC = 28(decreased), PSEG = 103(increased)
-
-## Question 3: What is the equation that describes the linear regression above? Please include an explanation of the variables and subscripts.
-
-Answer: $$
-y = \beta_0 + \beta_1 AEC + \beta_2 AECRebate + \beta_3 AEC*AECRebate + \beta_4  + \beta_5 PSEG + \beta_6 PSEGRebate + \beta_7 PSEG*PSEGRebate
-$$
-
-y represents the expected amount of vehicle sales in the zip codes
-covered by AEC and PSEG in New Jersey
-
 ``` r
 df4 <- df2 %>%
   filter(NAME == "Jersey Central Power & Light" | NAME == "Public Service Electric & Gas Co.")
   
-model3 <- felm(Total_EV ~ PSEG*PSEG_Rebate, data=df4)
-summary(model3)
+model1 <- felm(Total_EV ~ PSEG*PSEG_Rebate, data=df4)
+summary(model1)
 ```
 
 
@@ -262,8 +213,8 @@ summary(model3)
 df5 <- df2 %>%
   filter (NAME == "Atlantic City Electric" | NAME == "Rockland Electric Company")
 
-model4 <- felm(Total_EV ~ AEC*AEC_Rebate, data=df5)
-summary(model4)
+model2 <- felm(Total_EV ~ AEC*AEC_Rebate, data=df5)
+summary(model2)
 ```
 
 
@@ -292,14 +243,62 @@ summary(model4)
 |  |  |  |
 |----|----|----|
 |   | **Model 1 (Atlantic, Rockland)** | **Model 2 (JCPL, PSEG)** |
-| **Estimated Impact** | 1183 | 7524 |
+| **Estimated Impact** | 1828 | 13474 |
 | **Controls** | AEC, AEC_Rebate | PSEG, PSEG_Rebate |
 | **Obs** | 20 | 20 |
 | **R2** | 0.73 | 0.57 |
 
+## Question 1: What is the predicted value of the outcome variable when treatment=0?
+
+Answer: 1078 EV sales for all zip codes covered by Rockland, 8819 EV
+sales for all zip codes covered by JCPL (without the treated zipcodes
+which are AEC and PSEG)
+
+## Question 2: What is predicted value of the outcome variable when treatment=1?
+
+Answer: AEC: 1078 + 644 + 1210 + 1183 = 4115
+
+PSEG: 8819 + 5950 + 12009 + 7524 = 34302
+
+## Question 3: What is the equation that describes the linear regression above? Please include an explanation of the variables and subscripts. $$ y = \beta_0 + \beta_1 AEC_C + \beta_2 AECRebate_T + \beta_3 AEC_C*AECRebate_T + \beta_4  + \beta_5 PSEG_C + \beta_6 PSEGRebate_T + \beta_7 PSEG_C*PSEGRebate_T $$
+
+y represents the expected amount of vehicle sales in the zip codes
+covered by AEC and PSEG in New Jersey. C represents company and T
+represents the rebate time. When calculating the impact on PSEG treated
+areas, the AEC values are 0 and viceversa.
+
 ## Conclusion:
 
-Our future plans include a more detailed analysis taking other varia
+In conclusion, we examined four electricity companies, Public Service
+Electric & Gas (PSEG), Atlantic City Electric (ACE), Rockland Electric
+Company (REC), and Jersey City Electric and Power (JCPL), in the state
+of New Jersey to see how their rebate programs implemented the adoption
+of electric vehicles. To be more specific, we compared ACE to REC and
+JCPL to PSEG, as the pairs had similar trends in the number of EVs in
+zipcodes covered by them.
+
+Starting with ACE and REC, the AEC rebate was implemented in 2021 before
+REC’s in 2022, so we decided to compare the increase in EVs caused by
+the AEC rebate. After running the model, we found our intercept to be
+1078, which would’ve been the amount of EV sales in REC’s region per 6
+months without any rebates, and the number of EVs in ACE’s region to be
+1078 + 644 = 1722. Now, with the AEC rebate, the model predicted the
+number of EV sales to in AEC’s region to grow to 1078 + 644 + 1210 +
+1183 = 4115, while the number of EV’s in REC’s region to grow to 1078 +
+1209 = 2287. **Thus the impact of the AEC rebate is around 4115 - 2287 =
+1828 EVs.**
+
+Continuing with PSEG and JCPL, the PSEG rebate was also implemented in
+2021 before JCPL’s in 2022, so we decided to compare the increase in EVs
+caused by the PSEG rebate. After running the model, we found our
+intercept to be 8819, which would’ve been the amount of EV sales in
+JCPL’s region per 6 months without any rebates, and the number of EVs in
+PSEG’s region to be 8819 + 5950 = 14, 769 before its rebate was
+implemented. Then, once the PSEG rebate was implemented, the model
+predicted the number of EV sales in PSEG’s region to grow to 8819 +
+5950 + 12009 + 7524 = 34302 EVs while the number of EV’s in JCPL’s
+region to grow to 8819 + 12009 = 20828 EVs. **Thus the impact of the
+PSEG rebate is around 34302 - 20828 = 13474 EVs.**
 
 ## Future Plans:
 
