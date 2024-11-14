@@ -253,6 +253,7 @@ PSEG: 8819 + 5950 + 12009 + 7524 = 34302
 
 Question 3: What is the equation that describes the linear regression
 above? Please include an explanation of the variables and subscripts.
+
 $$ y = \beta_0 + \beta_1 AEC_C + \beta_2 AECRebate_T + \beta_3 AEC_C*AECRebate_T + \beta_4  + \beta_5 PSEG_C + \beta_6 PSEGRebate_T + \beta_7 PSEG_C*PSEGRebate_T $$
 
 y represents the expected amount of vehicle sales in the zip codes
