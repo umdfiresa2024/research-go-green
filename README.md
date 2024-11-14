@@ -240,14 +240,6 @@ summary(model2)
     F-statistic(full model):14.59 on 3 and 16 DF, p-value: 7.685e-05 
     F-statistic(proj model): 14.59 on 3 and 16 DF, p-value: 7.685e-05 
 
-|  |  |  |
-|----|----|----|
-|   | **Model 1 (Atlantic, Rockland)** | **Model 2 (JCPL, PSEG)** |
-| **Estimated Impact** | 1828 | 13474 |
-| **Controls** | AEC, AEC_Rebate | PSEG, PSEG_Rebate |
-| **Obs** | 20 | 20 |
-| **R2** | 0.73 | 0.57 |
-
 ## Question 1: What is the predicted value of the outcome variable when treatment=0?
 
 Answer: 1078 EV sales for all zip codes covered by Rockland, 8819 EV
@@ -260,12 +252,22 @@ Answer: AEC: 1078 + 644 + 1210 + 1183 = 4115
 
 PSEG: 8819 + 5950 + 12009 + 7524 = 34302
 
-## Question 3: What is the equation that describes the linear regression above? Please include an explanation of the variables and subscripts. $$ y = \beta_0 + \beta_1 AEC_C + \beta_2 AECRebate_T + \beta_3 AEC_C*AECRebate_T + \beta_4  + \beta_5 PSEG_C + \beta_6 PSEGRebate_T + \beta_7 PSEG_C*PSEGRebate_T $$
+Question 3: What is the equation that describes the linear regression
+above? Please include an explanation of the variables and subscripts.
+$$ y = \beta_0 + \beta_1 AEC_C + \beta_2 AECRebate_T + \beta_3 AEC_C*AECRebate_T + \beta_4  + \beta_5 PSEG_C + \beta_6 PSEGRebate_T + \beta_7 PSEG_C*PSEGRebate_T $$
 
 y represents the expected amount of vehicle sales in the zip codes
 covered by AEC and PSEG in New Jersey. C represents company and T
 represents the rebate time. When calculating the impact on PSEG treated
 areas, the AEC values are 0 and viceversa.
+
+|  |  |  |
+|----|----|----|
+|   | **Model 1 (Atlantic, Rockland)** | **Model 2 (JCPL, PSEG)** |
+| **Estimated Impact** | 1828 | 13474 |
+| **Controls** | AEC, AEC_Rebate | PSEG, PSEG_Rebate |
+| **Obs** | 20 | 20 |
+| **R2** | 0.73 | 0.57 |
 
 ## Conclusion:
 
