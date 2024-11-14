@@ -1,26 +1,40 @@
-# What is the impact of utility companies’ charging station rebates on EV adoption in New Jersey?
+# What is the impact of utility companies’ charging station rebates on
+EV adoption in New Jersey?
 
 
 ## Introduction:
 
-Electric vehicle (EV) adoption is starting to rise and one of the most
-challenging aspects is the transition between gasoline-powered vehicles
-to electric ones. In the state of New Jersey, many utility companies are
-starting to offer rebates and incentives for the purpose of installing
-EV charging stations in various counties to maintain widespread
-accessibility (Qmerit, 2024). The rebates are for reducing financial
-issues and burdens on businesses, property wonders, and other
-organizations in order to make it easier to install these stations.
-Lowering the costs and increasing the availability of charging stations
-through rebate programs, this attracts more EV customers and supports
-the current ones. Our research is important to society because New
-Jersey contains a high urban environment (New Jersey’s cleanenergy
-program, 2020). These charging station rebates lead to clean
-transportation choices and offer awareness to the public about the
-importance of positive EV consumption. Using this research to promote
-property wonders and businesses to understand the relationship between
-rebates and EV adoption, helps New Jersey’s objectives to reducing
-greenhouse gasses and promoting healthy energy uses.
+Electric vehicle (EV) adoption is consistently increasing, and one of
+the most challenging aspects is the transition from gasoline-powered
+vehicles to electric ones. The difficulties rise due to the struggle to
+provide affordable charging infrastructure. In the state of New Jersey,
+many utility companies, like Public Service Electric and Gas (PSEG) and
+Atlantic City Electric (ACE), are starting to offer rebates and
+incentives for the purpose of installing EV charging stations in various
+counties to maintain widespread accessibility (Qmerit, 2024). As of
+2021, PSEG and ACE are now accessible for the purpose of reducing
+financial struggles of the public in today’s society.
+
+To install an EV charging station at home, the cost can vary from \$500
+to \$2,000. There can also be other costs for any other upgrades that
+are needed. PSEG offers \$1,500 for an installation of a Level 2
+charging station and a \$5,000 discount for utility-side make-ready
+costs. ACE covers up to \$5000 or 75% of the installation cost for an EV
+charger. Rebates function in a way where there is an amount of
+reimbursement for some of the installation costs. This lowers the
+expenses that residents have to pay when they put their stations in
+place.
+
+Our research is important to society because New Jersey contains a high
+urban environment (New Jersey’s cleanenergy program, 2020). The high
+urban environment has dense populations as well as more chances of
+traffic, so this reduces any greenhouse gasses that are exerted.These
+charging station rebates lead to clean transportation choices and offer
+awareness to the public about the importance of positive EV consumption
+(US Department of Transportation, 2023). This research used to promote
+residents to understand the relationship between rebates and EV adoption
+helps New Jersey’s objectives to reducing greenhouse gasses and
+promoting healthy energy uses.
 
 ## Existing Research:
 
@@ -51,26 +65,26 @@ rebates on EV adoption.
 
 ### Outcome Variable:
 
-- The outcome variable is Vehicle.Count (EV sales) in the zip codes
-  covered by AEC and PSEG in New Jersey. This measures the number of
-  electric vehicles registered, which serves as a proxy for EV adoption
-  in response to the treatment (rebate programs).
+- The outcome variable is Vehicle.Count (EV sales) in the zip codes in
+  New Jersey. This measures the number of electric vehicles registered,
+  which serves as a proxy for EV adoption in response to the treatment
+  (rebate programs).
 
 ### Treatment Variable:
 
 - The treatment variable is the rebate programs offered by the utility
   companies (AEC_Rebate, PSEG_Rebate). These rebates are intended to
-  incentivize the installation of EV charging stations, which, in turn,
+  encourage the installation of EV charging stations, which, in turn,
   could increase EV adoption.
 
 - **PSEG:**  Electric Vehicle Charging Program which was implemented on
-  June 15, 2022, offers \$1,500 for Level 2 EVSE make-ready
+  June 15, 2021, offers \$1,500 for Level 2 EVSE make-ready
   infrastructure. \$5,000 discount for utility-side make-ready costs.
 
 - **Atlantic City Electric:** Residential Charger Rebate Program
-  implemented on February 17, 2021, rebate up to 50% of electrical
-  upgrade costs – or a maximum of \$1,000 – for installing a Level 2 EV
-  charger at home.
+  implemented on February 17, 2021, rebate up to 75% of electrical
+  upgrade costs – or a maximum of \$5,000 – for installing an EV charger
+  at home. In overburdened communities, 100% of the cost is covered.
 
 ### Frequency/Geographic Unit:
 
@@ -82,35 +96,23 @@ rebates on EV adoption.
 ### Treated and Untreated Group:
 
 - Treated Group: Zip codes served by utility companies that provide
-  rebates, specifically AEC and PSEG.
+  rebates before the first half of 2022, specifically AEC and PSEG.
 
 - Untreated Group: Zip codes served by utility companies that do not
-  provide rebates, specifically OR (Rockland Electric Company) and JCP&L
-  (Jersey Central Power & Light).
+  provide rebates before the first half of 2022, specifically OR
+  (Rockland Electric Company) and JCP&L (Jersey Central Power & Light).
+
+<img src="https://njcleanenergy.com/files/image/electric_map.gif"
+data-fig-align="center" width="161" />
 
 ### Data Cleaning and Analysis:
 
-Step 1. Install necessary packages.
-
-``` r
-install.packages("tidyverse")
-```
-
     Installing package into '/cloud/lib/x86_64-pc-linux-gnu-library/4.4'
     (as 'lib' is unspecified)
-
-``` r
-install.packages("kableExtra")
-```
-
     Installing package into '/cloud/lib/x86_64-pc-linux-gnu-library/4.4'
     (as 'lib' is unspecified)
-
-Step 2. Declare that you will use these packages in this session.
-
-``` r
-library("tidyverse")
-```
+    Installing package into '/cloud/lib/x86_64-pc-linux-gnu-library/4.4'
+    (as 'lib' is unspecified)
 
     ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
     ✔ dplyr     1.1.4     ✔ readr     2.1.5
@@ -123,28 +125,29 @@ library("tidyverse")
     ✖ dplyr::lag()    masks stats::lag()
     ℹ Use the conflicted package (<http://conflicted.r-lib.org/>) to force all conflicts to become errors
 
-``` r
-library("kableExtra")
-```
-
-
     Attaching package: 'kableExtra'
+
 
     The following object is masked from 'package:dplyr':
 
         group_rows
 
-Step 3. Upload the dataframe that you have created in Spring 2024 into
-the repository.
 
-Step 4. Open the dataframe into the RStudio Environment.
+    Loading required package: Matrix
+
+
+    Attaching package: 'Matrix'
+
+
+    The following objects are masked from 'package:tidyr':
+
+        expand, pack, unpack
+
+Step 1: Show the initial dataframe
 
 ``` r
 df<-read.csv("panel (1).csv")
 ```
-
-Step 5. Use the **head** and **kable** function showcase the first 10
-rows of the dataframe to the reader.
 
 ``` r
 kable(head(df))
@@ -159,7 +162,7 @@ kable(head(df))
 | 5 | 7001 | Public Service Electric & Gas Co. | 2021-12-01 | 53 | 1 | 0 | 1 | 1 | 0 | 0 | 0 | 0 |
 | 6 | 7001 | Public Service Electric & Gas Co. | 2022-12-01 | 67 | 1 | 0 | 1 | 1 | 1 | 0 | 1 | 0 |
 
-Step 6: Create a boxplot to visualize the distribution of the outcome
+Step 2: Create a plot to visualize the distribution of the outcome
 variable under treatment and no treatment.
 
 ``` r
@@ -168,12 +171,7 @@ df2 <- df %>%
   filter(Registration.Date < as.Date("2022-06-01")) %>%
   group_by(Registration.Date, NAME, AEC_Rebate, PSEG_Rebate, AEC, PSEG) %>%
   summarize(Total_EV = sum(Vehicle.Count))
-```
 
-    `summarise()` has grouped output by 'Registration.Date', 'NAME', 'AEC_Rebate',
-    'PSEG_Rebate', 'AEC'. You can override using the `.groups` argument.
-
-``` r
 JCPLandPSEG <- df2 %>%
   filter(NAME == "Public Service Electric & Gas Co." |
          NAME == "Jersey Central Power & Light")
@@ -182,23 +180,13 @@ ACEandREC <- df2 %>%
   filter(NAME == "Atlantic City Electric" | 
          NAME == "Rockland Electric Company")
 
-ggplot(df2, aes(x = Registration.Date, y = Total_EV, color = NAME)) + geom_line()
-```
-
-![](README_files/figure-commonmark/unnamed-chunk-5-1.png)
-
-``` r
 ggplot(JCPLandPSEG, aes(x = Registration.Date, y = Total_EV, color = NAME)) + geom_line() + geom_vline(xintercept = as.Date("2021-06-15"), linetype = "dashed") + theme(legend.position = c(0.3, 0.8)) + 
   scale_color_manual(values = c("Public Service Electric & Gas Co." = "purple", 
   "Jersey Central Power & Light" = "cyan4")) +
   labs(y="Total EV Sales", x="Date", color = "Utility Companies")
 ```
 
-    Warning: A numeric `legend.position` argument in `theme()` was deprecated in ggplot2
-    3.5.0.
-    ℹ Please use the `legend.position.inside` argument of `theme()` instead.
-
-![](README_files/figure-commonmark/unnamed-chunk-6-2.png)
+![](README_files/figure-commonmark/unnamed-chunk-5-1.png)
 
 ``` r
 ggplot(ACEandREC, aes(x = Registration.Date, y = Total_EV, color = NAME)) + geom_line() + geom_vline(xintercept = as.Date("2021-02-01"), linetype = "dashed") + theme(legend.position = c(0.3, 0.8)) + scale_color_manual(values = c("Atlantic City Electric" = "purple", 
@@ -206,12 +194,9 @@ ggplot(ACEandREC, aes(x = Registration.Date, y = Total_EV, color = NAME)) + geom
   labs(y="Total EV Sales", x="Date", color = "Utility Companies")
 ```
 
-![](README_files/figure-commonmark/unnamed-chunk-6-3.png)
+![](README_files/figure-commonmark/unnamed-chunk-5-2.png)
 
-``` r
-model1<-lm(Total_EV ~ AEC*AEC_Rebate + PSEG*PSEG_Rebate, data=df2)
-summary(model1)
-```
+![](README_files/figure-commonmark/unnamed-chunk-6-1.png)
 
 
     Call:
@@ -244,10 +229,6 @@ Step 8: Fit a regression model $y=\beta_0 + \beta_1 x + \epsilon$ where
 $y$ is the outcome variable and $x$ is the treatment variable. Use the
 **summary** function to display the results.
 
-``` r
-glimpse(df)
-```
-
     Rows: 8,442
     Columns: 13
     $ X                 <int> 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 1…
@@ -264,12 +245,6 @@ glimpse(df)
     $ JCPL_Rebate       <int> 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1…
     $ JCPL              <int> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…
 
-``` r
-#df2 <- df %>%
- # mutate(Registration.Date = as.Date(Registration.Date)) %>%
-  #filter(Registration.Date < as.Date("2022-06-01")) 
-```
-
 ## Question 1: What is the predicted value of the outcome variable when treatment=0?
 
 Answer: 36 EV sales per zip code per 6 months
@@ -280,26 +255,12 @@ Answer: AEC = 28(decreased), PSEG = 103(increased)
 
 ## Question 3: What is the equation that describes the linear regression above? Please include an explanation of the variables and subscripts.
 
-Answer: $
+Answer: $$
 y = \beta_0 + \beta_1 AEC + \beta_2 AECRebate + \beta_3 AEC*AECRebate + \beta_4  + \beta_5 PSEG + \beta_6 PSEGRebate + \beta_7 PSEG*PSEGRebate
-$
+$$
 
-y represents the expected amount of vechile sales in the zip codes
+y represents the expected amount of vehicle sales in the zip codes
 covered by AEC and PSEG in New Jersey
-
-``` r
-#install.packages("lfe")
-library("lfe")
-```
-
-    Loading required package: Matrix
-
-
-    Attaching package: 'Matrix'
-
-    The following objects are masked from 'package:tidyr':
-
-        expand, pack, unpack
 
 ``` r
 df4 <- df2 %>%
@@ -362,6 +323,18 @@ summary(model4)
     Multiple R-squared(proj model): 0.7323   Adjusted R-squared: 0.6821 
     F-statistic(full model):14.59 on 3 and 16 DF, p-value: 7.685e-05 
     F-statistic(proj model): 14.59 on 3 and 16 DF, p-value: 7.685e-05 
+
+|  |  |  |
+|----|----|----|
+|   | **Model 1 (Atlantic, Rockland)** | **Model 2 (JCPL, PSEG)** |
+| **Estimated Impact** | 1183 | 7524 |
+| **Controls** | AEC, AEC_Rebate | PSEG, PSEG_Rebate |
+| **Obs** | 20 | 20 |
+| **R2** | 0.73 | 0.57 |
+
+## Conclusion:
+
+Our future plans include a more detailed analysis taking other varia
 
 ## Future Plans:
 
