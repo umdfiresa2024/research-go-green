@@ -48,6 +48,7 @@ Electric vehicle (EV) charging rebates are financial incentives that are given b
 
 ```{r}
 #| echo: false
+#| eval: false
 install.packages("tidyverse")
 install.packages("kableExtra")
 install.packages("lfe")
@@ -102,6 +103,7 @@ ggplot(ACEandREC, aes(x = Registration.Date, y = Total_EV, color = NAME)) + geom
 
 ```{r}
 #| echo: false
+#| eval: false
 ggplot(df2, aes(x = Registration.Date, y = Total_EV, color = NAME)) + geom_line()
 
 model1<-lm(Total_EV ~ AEC*AEC_Rebate + PSEG*PSEG_Rebate, data=df2)

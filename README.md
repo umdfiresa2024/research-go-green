@@ -107,13 +107,6 @@ data-fig-align="center" width="161" />
 
 ### Data Cleaning and Analysis:
 
-    Installing package into '/cloud/lib/x86_64-pc-linux-gnu-library/4.4'
-    (as 'lib' is unspecified)
-    Installing package into '/cloud/lib/x86_64-pc-linux-gnu-library/4.4'
-    (as 'lib' is unspecified)
-    Installing package into '/cloud/lib/x86_64-pc-linux-gnu-library/4.4'
-    (as 'lib' is unspecified)
-
     ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
     ✔ dplyr     1.1.4     ✔ readr     2.1.5
     ✔ forcats   1.0.0     ✔ stringr   1.5.1
@@ -195,33 +188,6 @@ ggplot(ACEandREC, aes(x = Registration.Date, y = Total_EV, color = NAME)) + geom
 ```
 
 ![](README_files/figure-commonmark/unnamed-chunk-5-2.png)
-
-![](README_files/figure-commonmark/unnamed-chunk-6-1.png)
-
-
-    Call:
-    lm(formula = Total_EV ~ AEC * AEC_Rebate + PSEG * PSEG_Rebate, 
-        data = df2)
-
-    Residuals:
-       Min     1Q Median     3Q    Max 
-     -9560  -1133  -1105     -3  17316 
-
-    Coefficients:
-                     Estimate Std. Error t value Pr(>|t|)    
-    (Intercept)        1146.0      549.5   2.086 0.040095 *  
-    AEC                 576.4     1563.8   0.369 0.713374    
-    AEC_Rebate         2709.4     1514.4   1.789 0.077252 .  
-    PSEG              13321.1     1475.0   9.031 5.66e-14 ***
-    PSEG_Rebate        -343.7     2019.2  -0.170 0.865260    
-    AEC:AEC_Rebate     -144.9     3484.5  -0.042 0.966921    
-    PSEG:PSEG_Rebate  17469.2     4646.0   3.760 0.000315 ***
-    ---
-    Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-
-    Residual standard error: 4141 on 83 degrees of freedom
-    Multiple R-squared:  0.631, Adjusted R-squared:  0.6044 
-    F-statistic: 23.66 on 6 and 83 DF,  p-value: 4.058e-16
 
 ## Preliminary Regression Results:
 
