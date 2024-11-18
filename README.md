@@ -42,7 +42,9 @@ given by governments and certain organizations to encourage people to
 acquire electric vehicles. When one applies for a rebate after
 purchasing an EV charging station, one can receive some money back. This
 helps promote cleaner transportation options and makes charging stations
-more affordable and convenient.This study will build on existing
+more affordable and convenient. It can cost anywhere from $1,500 to $5,00 depending on the company to install a residential EV charging station. Due to that factor, energy companies have created EV charging station rebate programs to help incentivize people to buy EVs. 
+
+This study will build on existing
 findings and delve deeper into the impact of utility companies’ charging
 station rebates on electric vehicle adoption. Despite there being some
 research done on similar topics, there are noticeable gaps. Certain
