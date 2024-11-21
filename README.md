@@ -262,7 +262,8 @@ for the ACE and REC region.
 PSEG: 8819 + 5950 + 12009 + 7524 = 34302. This number includes EVs for
 the PSEG and JCP&L region.
 
-## Question 3: What is the equation that describes the linear regression above? Please include an explanation of the variables and subscripts. $$ y = \beta_0 + \beta_1 ACE_C + \beta_2 ACERebate_T + \beta_3 ACE_C*ACERebate_T + \beta_4  + \beta_5 PSEG_C + \beta_6 PSEGRebate_T + \beta_7 PSEG_C*PSEGRebate_T $$
+## Question 3: What is the equation that describes the linear regression above? Please include an explanation of the variables and subscripts. 
+$$ y = \beta_0 + \beta_1 ACE_C + \beta_2 ACERebate_T + \beta_3 ACE_C*ACERebate_T + \beta_4  + \beta_5 PSEG_C + \beta_6 PSEGRebate_T + \beta_7 PSEG_C*PSEGRebate_T $$
 
 y represents the expected amount of vehicle sales in the zip codes
 covered by ACE and PSEG in New Jersey. C represents company and T
