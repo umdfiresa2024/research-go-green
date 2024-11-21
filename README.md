@@ -1,4 +1,5 @@
-# What is the impact of utility companies’ charging station rebates on EV adoption in New Jersey?
+# What is the impact of utility companies’ charging station rebates on
+EV adoption in New Jersey?
 
 
 ## Introduction:
@@ -189,8 +190,8 @@ ggplot(df2, aes(x = Registration.Date, y = Total_EV, color = NAME)) + geom_line(
 
 ``` r
 ggplot(JCPLandPSEG, aes(x = Registration.Date, y = Total_EV, color = NAME)) + geom_line() + geom_vline(xintercept = as.Date("2021-06-15"), linetype = "dashed") + theme(legend.position = c(0.3, 0.8)) + 
-  scale_color_manual(values = c("Public Service Electric & Gas Co." = "purple", 
-  "Jersey Central Power & Light" = "cyan4")) +
+  scale_color_manual(values = c("Public Service Electric & Gas Co." = "#F77708", 
+  "Jersey Central Power & Light" = "#54b6CC")) +
   labs(y="Total EV Sales", x="Date", color = "Utility Companies")
 ```
 
@@ -198,15 +199,15 @@ ggplot(JCPLandPSEG, aes(x = Registration.Date, y = Total_EV, color = NAME)) + ge
     3.5.0.
     ℹ Please use the `legend.position.inside` argument of `theme()` instead.
 
-![](README_files/figure-commonmark/unnamed-chunk-6-2.png)
+![](README_files/figure-commonmark/unnamed-chunk-5-2.png)
 
 ``` r
-ggplot(ACEandREC, aes(x = Registration.Date, y = Total_EV, color = NAME)) + geom_line() + geom_vline(xintercept = as.Date("2021-02-01"), linetype = "dashed") + theme(legend.position = c(0.3, 0.8)) + scale_color_manual(values = c("Atlantic City Electric" = "purple", 
-  "Rockland Electric Company" = "cyan4")) +
+ggplot(ACEandREC, aes(x = Registration.Date, y = Total_EV, color = NAME)) + geom_line() + geom_vline(xintercept = as.Date("2021-02-01"), linetype = "dashed") + theme(legend.position = c(0.3, 0.8)) + scale_color_manual(values = c("Atlantic City Electric" = "#54b6CC", 
+  "Rockland Electric Company" = "#F77708")) +
   labs(y="Total EV Sales", x="Date", color = "Utility Companies")
 ```
 
-![](README_files/figure-commonmark/unnamed-chunk-6-3.png)
+![](README_files/figure-commonmark/unnamed-chunk-5-3.png)
 
 ``` r
 model1<-lm(Total_EV ~ AEC*AEC_Rebate + PSEG*PSEG_Rebate, data=df2)
@@ -272,17 +273,19 @@ glimpse(df)
 
 ## Question 1: What is the predicted value of the outcome variable when treatment=0?
 
-Answer: 36 EV sales per zip code per 6 months
+Answer: 1146 EV sales per electric company region per 6 months
 
 ## Question 2: What is predicted value of the outcome variable when treatment=1?
 
-Answer: AEC = 28(decreased), PSEG = 103(increased)
+Answer: AEC: 1146 + 576 + 2709 + -145 = 4286
+
+PSEG: 1146 + 13321 - 343 + 17469 = 31593
 
 ## Question 3: What is the equation that describes the linear regression above? Please include an explanation of the variables and subscripts.
 
-Answer: $
+Answer: $$
 y = \beta_0 + \beta_1 AEC + \beta_2 AECRebate + \beta_3 AEC*AECRebate + \beta_4  + \beta_5 PSEG + \beta_6 PSEGRebate + \beta_7 PSEG*PSEGRebate
-$
+$$
 
 y represents the expected amount of vechile sales in the zip codes
 covered by AEC and PSEG in New Jersey
@@ -362,6 +365,37 @@ summary(model4)
     Multiple R-squared(proj model): 0.7323   Adjusted R-squared: 0.6821 
     F-statistic(full model):14.59 on 3 and 16 DF, p-value: 7.685e-05 
     F-statistic(proj model): 14.59 on 3 and 16 DF, p-value: 7.685e-05 
+
+## Conclusion:
+
+In conclusion, we examined four electricity companies, Public Service
+Electric & Gas (PSEG), Atlantic City Electric (ACE), Rockland Electric
+Company (REC), and Jersey City Electric and Power (JCPL), in the state
+of New Jersey to see how their rebate programs implemented the adoption
+of electric vehicles. To be more specific, we compared ACE to REC and
+JCPL to PSEG, as the pairs had similar trends in the number of EVs in
+zipcodes covered by them.
+
+Starting with ACE and REC, the AEC rebate was implemented in 2021 before
+REC’s in 2022, so we decided to compare the increase in EVs caused by
+the AEC rebate. After running the model, we found our intercept to be
+1078, which would’ve been the amount of EV sales in REC’s region per 6
+months without any rebates, and the number of EVs in ACE’s region to be
+1078 + 644 = 1722. Now, with the AEC rebate, the model predicted the
+number of EV sales to in AEC’s region to grow to 1078 + 644 + 1209 +
+1182 = 4181, while the number of EV’s in REC’s region to grow to 1078 +
+1209 = 2287.
+
+Continuing with PSEG and JCPL, the PSEG rebate was also implemented in
+2021 before JCPL’s in 2022, so we decided to compare the increase in EVs
+caused by the PSEG rebate. After running the model, we found our
+intercept to be 8819, which would’ve been the amount of EV sales in
+JCPL’s region per 6 months without any rebates, and the number of EVs in
+PSEG’s region to be 8819 + 5950 = 14,769 before its rebate was
+implemented. Then, once the PSEG rebate was implemented, the model
+predicted the number of EV sales in PSEG’s region to grow to 8819 +
+5950 + 12009 + 7524 = 34302 EVs while the number of EV’s in JCPL’s
+region to grow to 8819 + 12009 = 20828 EVs.
 
 ## Future Plans:
 
