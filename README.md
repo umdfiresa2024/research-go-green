@@ -15,18 +15,18 @@ counties to maintain widespread accessibility (Qmerit, 2024). As of
 2021, PSEG and ACE are now accessible for the purpose of reducing
 financial struggles of the public in today’s society.
 
-To install an EV charging station at home, the cost can vary from \$500
-to \$2,000. There can also be other costs for any other upgrades that
-are needed. PSEG offers \$1,500 for an installation of a Level 2
-charging station and a \$5,000 discount for utility-side make-ready
-costs. ACE covers up to \$5000 or 75% of the installation cost for an EV
-charger. Rebates function in a way where there is an amount of
-reimbursement for some of the installation costs. This lowers the
-expenses that residents have to pay when they put their stations in
-place.
+The average cost of installing an EV charging station at home is around
+\$500 to \$2,000 but can also be on the higher end (\$5000+). There can
+also be other costs for other upgrades that are needed. PSEG offers
+\$1,500 for an installation of a Level 2 charging station and a \$5,000
+discount for utility-side make-ready costs. ACE covers up to \$5000 or
+75% of the installation cost for an EV charger. Rebates function in a
+way where there is an amount of reimbursement for some of the
+installation costs. This lowers the expenses that residents have to pay
+when they put their stations in place.
 
 Our research is important to society because New Jersey contains a high
-urban environment (New Jersey’s cleanenergy program, 2020). The high
+urban environment (New Jersey’s Clean Energy program, 2020). The high
 urban environment has dense populations as well as more chances of
 traffic, so this reduces any greenhouse gasses that are exerted.These
 charging station rebates lead to clean transportation choices and offer
@@ -43,25 +43,31 @@ given by governments and certain organizations to encourage people to
 acquire electric vehicles. When one applies for a rebate after
 purchasing an EV charging station, one can receive some money back. This
 helps promote cleaner transportation options and makes charging stations
-more affordable and convenient. It can cost anywhere from $1,500 to $5,00 depending on the company to install a residential EV charging station. Due to that factor, energy companies have created EV charging station rebate programs to help incentivize people to buy EVs. 
-
-This study will build on existing
-findings and delve deeper into the impact of utility companies’ charging
-station rebates on electric vehicle adoption. Despite there being some
-research done on similar topics, there are noticeable gaps. Certain
-studies have focused on border areas from a geographical standpoint, or
-also lack specific information on the impact of rebates on EV adoption
-rates in New Jersey. Other studies also may not have researched consumer
-behavior, accessibility affordability, and rebate mechanisms overall.
+more affordable and convenient. Due to that factor, energy companies
+have created EV charging station rebate programs to help incentivize
+people to buy EVs. Our study will build on existing findings and delve
+deeper into the impact of utility companies’ charging station rebates on
+electric vehicle adoption. Despite there being some research done on
+similar topics, there are noticeable gaps. Certain studies have focused
+on border areas from a geographical standpoint, or also lack specific
+information on the impact of rebates on EV adoption rates in New Jersey.
 Muehlegger & Rapson (2022) studied EV adoption in California and helped
 strengthen our data when focusing on New Jersey by using reliable
 comparisons (Muehlegger & Rapson, 2022). The state of California gives a
-broader perspective of what the subsidies and purchases of EVs are from
-another geographic location. Clinton & Steinberg (2019) explained the
+broader perspective of the subsidies and purchases of EVs from another
+geographic location. Clinton & Steinberg (2019) explained the
 relationship between financial incentives and EV adoption through its
-lessons (Clinton & Steinberg, 2019). Our study will address those gaps
-due to focusing strictly on New Jersey and its direct impact of the
-rebates on EV adoption.
+lessons (Clinton & Steinberg, 2019). Their quantitative research focused
+on the effects of BEV policy adoption in predominantly Massachusetts,
+California, and Texas. Their findings indicated incentives offered as
+state income tax credits do not have a statistically significant effect
+on BEV adoptions, though they cautioned it may be a result of limited
+changes in BEV incentives over time in the sample used. Our study will
+address those gaps due to focusing strictly on New Jersey and its direct
+impact of the rebates on EV adoption. We will also focus on a time
+period where we can directly see the impact of the rebates in order to
+offer a proper comparison between having the rebates and not having the
+rebates. 
 
 ## Data Description:
 
@@ -75,11 +81,11 @@ rebates on EV adoption.
 ### Treatment Variable:
 
 - The treatment variable is the rebate programs offered by the utility
-  companies (AEC_Rebate, PSEG_Rebate). These rebates are intended to
+  companies (ACE_Rebate, PSEG_Rebate). These rebates are intended to
   encourage the installation of EV charging stations, which, in turn,
   could increase EV adoption.
 
-- **PSEG:**  Electric Vehicle Charging Program which was implemented on
+- **PSEG:** Electric Vehicle Charging Program which was implemented on
   June 15, 2021, offers \$1,500 for Level 2 EVSE make-ready
   infrastructure. \$5,000 discount for utility-side make-ready costs.
 
@@ -91,18 +97,19 @@ rebates on EV adoption.
 ### Frequency/Geographic Unit:
 
 - Frequency: The dataset is semi-annual, with observations collected
-  every six months from 2016 to 2023.
+  every six months from 2016 to 2023. The EV sales data was taken from:
+  <https://www.atlasevhub.com/materials/state-ev-registration-data/>
 
 - Geographic Unit: The data is organized by zip code.
 
 ### Treated and Untreated Group:
 
 - Treated Group: Zip codes served by utility companies that provide
-  rebates before the first half of 2022, specifically AEC and PSEG.
+  rebates before the first half of 2022, specifically ACE and PSEG.
 
 - Untreated Group: Zip codes served by utility companies that do not
-  provide rebates before the first half of 2022, specifically OR
-  (Rockland Electric Company) and JCP&L (Jersey Central Power & Light).
+  provide rebates before the first half of 2022, specifically Rockland
+  Electric Company (REC) and JCP&L (Jersey Central Power & Light).
 
 <img src="https://njcleanenergy.com/files/image/electric_map.gif"
 data-fig-align="center" width="161" />
@@ -112,14 +119,15 @@ data-fig-align="center" width="161" />
 Step 1: Show the initial dataframe
 
 ``` r
-df<-read.csv("panel (1).csv")
+df<-read.csv("panel (1).csv") %>%
+  rename(ACE_Rebate = AEC_Rebate, ACE = AEC)
 ```
 
 ``` r
 kable(head(df))
 ```
 
-| X | ZIP.Code | NAME | Registration.Date | Vehicle.Count | AEC_Rebate | AEC | PSEG_Rebate | PSEG | REC_Rebate | REC | JCPL_Rebate | JCPL |
+| X | ZIP.Code | NAME | Registration.Date | Vehicle.Count | ACE_Rebate | ACE | PSEG_Rebate | PSEG | REC_Rebate | REC | JCPL_Rebate | JCPL |
 |---:|---:|:---|:---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
 | 1 | 7001 | Public Service Electric & Gas Co. | 2019-06-01 | 21 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 0 |
 | 2 | 7001 | Public Service Electric & Gas Co. | 2021-06-01 | 45 | 1 | 0 | 0 | 1 | 0 | 0 | 0 | 0 |
@@ -135,7 +143,7 @@ variable under treatment and no treatment.
 df2 <- df %>%
   mutate(Registration.Date = as.Date(Registration.Date)) %>%
   filter(Registration.Date < as.Date("2022-06-01")) %>%
-  group_by(Registration.Date, NAME, AEC_Rebate, PSEG_Rebate, AEC, PSEG) %>%
+  group_by(Registration.Date, NAME, ACE_Rebate, PSEG_Rebate, ACE, PSEG) %>%
   summarize(Total_EV = sum(Vehicle.Count))
 
 JCPLandPSEG <- df2 %>%
@@ -147,20 +155,12 @@ ACEandREC <- df2 %>%
          NAME == "Rockland Electric Company")
 
 ggplot(JCPLandPSEG, aes(x = Registration.Date, y = Total_EV, color = NAME)) + geom_line() + geom_vline(xintercept = as.Date("2021-06-15"), linetype = "dashed") + theme(legend.position = c(0.3, 0.8)) + 
-  scale_color_manual(values = c("Public Service Electric & Gas Co." = "#F77708", 
-  "Jersey Central Power & Light" = "#54b6CC")) +
+  scale_color_manual(values = c("Public Service Electric & Gas Co." = "#54b6CC", 
+  "Jersey Central Power & Light" = "#F77708")) +
   labs(y="Total EV Sales", x="Date", color = "Utility Companies")
 ```
 
-<<<<<<< HEAD
-    Warning: A numeric `legend.position` argument in `theme()` was deprecated in ggplot2
-    3.5.0.
-    ℹ Please use the `legend.position.inside` argument of `theme()` instead.
-
-![](README_files/figure-commonmark/unnamed-chunk-5-2.png)
-=======
 ![](README_files/figure-commonmark/unnamed-chunk-5-1.png)
->>>>>>> 93585985cb8fdcdd133d8bf366e9700c3c62e658
 
 ``` r
 ggplot(ACEandREC, aes(x = Registration.Date, y = Total_EV, color = NAME)) + geom_line() + geom_vline(xintercept = as.Date("2021-02-01"), linetype = "dashed") + theme(legend.position = c(0.3, 0.8)) + scale_color_manual(values = c("Atlantic City Electric" = "#54b6CC", 
@@ -168,41 +168,7 @@ ggplot(ACEandREC, aes(x = Registration.Date, y = Total_EV, color = NAME)) + geom
   labs(y="Total EV Sales", x="Date", color = "Utility Companies")
 ```
 
-<<<<<<< HEAD
-![](README_files/figure-commonmark/unnamed-chunk-5-3.png)
-
-``` r
-model1<-lm(Total_EV ~ AEC*AEC_Rebate + PSEG*PSEG_Rebate, data=df2)
-summary(model1)
-```
-
-
-    Call:
-    lm(formula = Total_EV ~ AEC * AEC_Rebate + PSEG * PSEG_Rebate, 
-        data = df2)
-
-    Residuals:
-       Min     1Q Median     3Q    Max 
-     -9560  -1133  -1105     -3  17316 
-
-    Coefficients:
-                     Estimate Std. Error t value Pr(>|t|)    
-    (Intercept)        1146.0      549.5   2.086 0.040095 *  
-    AEC                 576.4     1563.8   0.369 0.713374    
-    AEC_Rebate         2709.4     1514.4   1.789 0.077252 .  
-    PSEG              13321.1     1475.0   9.031 5.66e-14 ***
-    PSEG_Rebate        -343.7     2019.2  -0.170 0.865260    
-    AEC:AEC_Rebate     -144.9     3484.5  -0.042 0.966921    
-    PSEG:PSEG_Rebate  17469.2     4646.0   3.760 0.000315 ***
-    ---
-    Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-
-    Residual standard error: 4141 on 83 degrees of freedom
-    Multiple R-squared:  0.631, Adjusted R-squared:  0.6044 
-    F-statistic: 23.66 on 6 and 83 DF,  p-value: 4.058e-16
-=======
 ![](README_files/figure-commonmark/unnamed-chunk-5-2.png)
->>>>>>> 93585985cb8fdcdd133d8bf366e9700c3c62e658
 
 ## Preliminary Regression Results:
 
@@ -213,8 +179,8 @@ summary(model1)
     $ NAME              <chr> "Public Service Electric & Gas Co.", "Public Service…
     $ Registration.Date <chr> "2019-06-01", "2021-06-01", "2022-06-01", "2017-06-0…
     $ Vehicle.Count     <int> 21, 45, 59, 5, 53, 67, 187, 14, 10, 130, 40, 30, 28,…
-    $ AEC_Rebate        <int> 0, 1, 1, 0, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1…
-    $ AEC               <int> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…
+    $ ACE_Rebate        <int> 0, 1, 1, 0, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1…
+    $ ACE               <int> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…
     $ PSEG_Rebate       <int> 0, 0, 1, 0, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1…
     $ PSEG              <int> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1…
     $ REC_Rebate        <int> 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1…
@@ -223,48 +189,6 @@ summary(model1)
     $ JCPL              <int> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…
 
 ``` r
-<<<<<<< HEAD
-#df2 <- df %>%
- # mutate(Registration.Date = as.Date(Registration.Date)) %>%
-  #filter(Registration.Date < as.Date("2022-06-01")) 
-```
-
-## Question 1: What is the predicted value of the outcome variable when treatment=0?
-
-Answer: 1146 EV sales per electric company region per 6 months
-
-## Question 2: What is predicted value of the outcome variable when treatment=1?
-
-Answer: AEC: 1146 + 576 + 2709 + -145 = 4286
-
-PSEG: 1146 + 13321 - 343 + 17469 = 31593
-
-## Question 3: What is the equation that describes the linear regression above? Please include an explanation of the variables and subscripts.
-
-Answer: $$
-y = \beta_0 + \beta_1 AEC + \beta_2 AECRebate + \beta_3 AEC*AECRebate + \beta_4  + \beta_5 PSEG + \beta_6 PSEGRebate + \beta_7 PSEG*PSEGRebate
-$$
-
-y represents the expected amount of vechile sales in the zip codes
-covered by AEC and PSEG in New Jersey
-
-``` r
-#install.packages("lfe")
-library("lfe")
-```
-
-    Loading required package: Matrix
-
-
-    Attaching package: 'Matrix'
-
-    The following objects are masked from 'package:tidyr':
-
-        expand, pack, unpack
-
-``` r
-=======
->>>>>>> 93585985cb8fdcdd133d8bf366e9700c3c62e658
 df4 <- df2 %>%
   filter(NAME == "Jersey Central Power & Light" | NAME == "Public Service Electric & Gas Co.")
   
@@ -299,13 +223,13 @@ summary(model1)
 df5 <- df2 %>%
   filter (NAME == "Atlantic City Electric" | NAME == "Rockland Electric Company")
 
-model2 <- felm(Total_EV ~ AEC*AEC_Rebate, data=df5)
+model2 <- felm(Total_EV ~ ACE*ACE_Rebate, data=df5)
 summary(model2)
 ```
 
 
     Call:
-       felm(formula = Total_EV ~ AEC * AEC_Rebate, data = df5) 
+       felm(formula = Total_EV ~ ACE * ACE_Rebate, data = df5) 
 
     Residuals:
          Min       1Q   Median       3Q      Max 
@@ -314,9 +238,9 @@ summary(model2)
     Coefficients:
                    Estimate Std. Error t value Pr(>|t|)    
     (Intercept)      1078.2      209.6   5.145 9.78e-05 ***
-    AEC               644.1      296.4   2.173   0.0451 *  
-    AEC_Rebate       1209.8      468.6   2.581   0.0201 *  
-    AEC:AEC_Rebate   1182.9      662.7   1.785   0.0933 .  
+    ACE               644.1      296.4   2.173   0.0451 *  
+    ACE_Rebate       1209.8      468.6   2.581   0.0201 *  
+    ACE:ACE_Rebate   1182.9      662.7   1.785   0.0933 .  
     ---
     Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
@@ -326,39 +250,34 @@ summary(model2)
     F-statistic(full model):14.59 on 3 and 16 DF, p-value: 7.685e-05 
     F-statistic(proj model): 14.59 on 3 and 16 DF, p-value: 7.685e-05 
 
-<<<<<<< HEAD
-=======
 ## Question 1: What is the predicted value of the outcome variable when treatment=0?
 
-Answer: 1078 EV sales for all zip codes covered by Rockland, 8819 EV
-sales for all zip codes covered by JCPL (without the treated zipcodes
-which are AEC and PSEG)
+Answer: 1078 EVs for the zip codes covered by REC and ACE, 8819 EVs for
+the zip codes covered by PSEG and JCP&L,
 
 ## Question 2: What is predicted value of the outcome variable when treatment=1?
 
-Answer: AEC: 1078 + 644 + 1210 + 1183 = 4115
+Answer: ACE: 1078 + 644 + 1210 + 1183 = 4115. This number includes EVs
+for the ACE and REC region.
 
-PSEG: 8819 + 5950 + 12009 + 7524 = 34302
+PSEG: 8819 + 5950 + 12009 + 7524 = 34302. This number includes EVs for
+the PSEG and JCP&L region.
 
-Question 3: What is the equation that describes the linear regression
-above? Please include an explanation of the variables and subscripts.
-
-$$ y = \beta_0 + \beta_1 AEC_C + \beta_2 AECRebate_T + \beta_3 AEC_C*AECRebate_T + \beta_4  + \beta_5 PSEG_C + \beta_6 PSEGRebate_T + \beta_7 PSEG_C*PSEGRebate_T $$
+## Question 3: What is the equation that describes the linear regression above? Please include an explanation of the variables and subscripts. $$ y = \beta_0 + \beta_1 ACE_C + \beta_2 ACERebate_T + \beta_3 ACE_C*ACERebate_T + \beta_4  + \beta_5 PSEG_C + \beta_6 PSEGRebate_T + \beta_7 PSEG_C*PSEGRebate_T $$
 
 y represents the expected amount of vehicle sales in the zip codes
-covered by AEC and PSEG in New Jersey. C represents company and T
+covered by ACE and PSEG in New Jersey. C represents company and T
 represents the rebate time. When calculating the impact on PSEG treated
-areas, the AEC values are 0 and viceversa.
+areas, the ACE values are 0 and viceversa.
 
 |  |  |  |
 |----|----|----|
-|   | **Model 1 (Atlantic, Rockland)** | **Model 2 (JCPL, PSEG)** |
+|  | **Model 1 (Atlantic, Rockland)** | **Model 2 (JCPL, PSEG)** |
 | **Estimated Impact** | 1828 | 13474 |
-| **Controls** | AEC, AEC_Rebate | PSEG, PSEG_Rebate |
+| **Controls** | ACE, ACE_Rebate | PSEG, PSEG_Rebate |
 | **Obs** | 20 | 20 |
 | **R2** | 0.73 | 0.57 |
 
->>>>>>> 93585985cb8fdcdd133d8bf366e9700c3c62e658
 ## Conclusion:
 
 In conclusion, we examined four electricity companies, Public Service
@@ -369,52 +288,48 @@ of electric vehicles. To be more specific, we compared ACE to REC and
 JCPL to PSEG, as the pairs had similar trends in the number of EVs in
 zipcodes covered by them.
 
-Starting with ACE and REC, the AEC rebate was implemented in 2021 before
+Starting with ACE and REC, the ACE rebate was implemented in 2021 before
 REC’s in 2022, so we decided to compare the increase in EVs caused by
-the AEC rebate. After running the model, we found our intercept to be
+the ACE rebate. After running the model, we found our intercept to be
 1078, which would’ve been the amount of EV sales in REC’s region per 6
 months without any rebates, and the number of EVs in ACE’s region to be
-1078 + 644 = 1722. Now, with the AEC rebate, the model predicted the
-<<<<<<< HEAD
-number of EV sales to in AEC’s region to grow to 1078 + 644 + 1209 +
-1182 = 4181, while the number of EV’s in REC’s region to grow to 1078 +
-1209 = 2287.
-=======
-number of EV sales to in AEC’s region to grow to 1078 + 644 + 1210 +
+1078 + 644 = 1722. Now, with the ACE rebate, the model predicted the
+number of EV sales to in ACE’s region to grow to 1078 + 644 + 1210 +
 1183 = 4115, while the number of EV’s in REC’s region to grow to 1078 +
-1209 = 2287. **Thus the impact of the AEC rebate is around 4115 - 2287 =
+1209 = 2287. **Thus the impact of the ACE rebate is around 4115 - 2287 =
 1828 EVs.**
->>>>>>> 93585985cb8fdcdd133d8bf366e9700c3c62e658
 
-Continuing with PSEG and JCPL, the PSEG rebate was also implemented in
-2021 before JCPL’s in 2022, so we decided to compare the increase in EVs
-caused by the PSEG rebate. After running the model, we found our
+Continuing with PSEG and JCP&L, the PSEG rebate was also implemented in
+2021 before JCP&L’s in 2022, so we decided to compare the increase in
+EVs caused by the PSEG rebate. After running the model, we found our
 intercept to be 8819, which would’ve been the amount of EV sales in
-JCPL’s region per 6 months without any rebates, and the number of EVs in
-<<<<<<< HEAD
-PSEG’s region to be 8819 + 5950 = 14,769 before its rebate was
+JCP&L’s region per 6 months without any rebates, and the number of EVs
+in PSEG’s region to be 8819 + 5950 = 14, 769 before its rebate was
 implemented. Then, once the PSEG rebate was implemented, the model
 predicted the number of EV sales in PSEG’s region to grow to 8819 +
-5950 + 12009 + 7524 = 34302 EVs while the number of EV’s in JCPL’s
-region to grow to 8819 + 12009 = 20828 EVs.
-=======
-PSEG’s region to be 8819 + 5950 = 14, 769 before its rebate was
-implemented. Then, once the PSEG rebate was implemented, the model
-predicted the number of EV sales in PSEG’s region to grow to 8819 +
-5950 + 12009 + 7524 = 34302 EVs while the number of EV’s in JCPL’s
+5950 + 12009 + 7524 = 34302 EVs while the number of EV’s in JCP&L’s
 region to grow to 8819 + 12009 = 20828 EVs. **Thus the impact of the
 PSEG rebate is around 34302 - 20828 = 13474 EVs.**
->>>>>>> 93585985cb8fdcdd133d8bf366e9700c3c62e658
+
+Although there is a positive correlation between the rebate and EV
+sales, we cannot fully determine if rebates were the main reason the EV
+sales increased or if there were other factors that played a part. **The
+results we got from the models are not statistically significant**, so
+we would need more data in order to fully answer the question. However,
+from our research and the data we had, **we were able to confirm a
+positive correlation between rebates and EV sales in New Jersey.**
 
 ## Future Plans:
 
 Our future plans include a more detailed analysis taking other variables
 into account. For example, we could look at electricity costs in
 different seasons to see if that impacts the perceived benefit of EV
-charging station rebates. We also plan to look at other states and
-rebate policies based on the data available. This would help us compare
-our preliminary results of New Jersey to other states to see if trends
-are similar.
+charging station rebates. We also want to collect more data so we can
+have more conclusive results and determine if there is more of a
+causation between rebates and EV sales in New Jersey. We also plan to
+look at other states and rebate policies based on the data available.
+This would help us compare our preliminary results of New Jersey to
+other states to see if trends are similar.
 
 ## Bibliography:
 
@@ -425,7 +340,7 @@ https://doi.org/10.1016/j.jeem.2019.102255 
 
 Electric Vehicle Incentive Programs \| NJ OCE Web Site. (2020).
 Njcleanenergy.com.
-https://www.njcleanenergy.com/ev?gad_source=1&gclid=Cj0KCQiA_qG5BhDTARIsAA0UHSIhzHJDWQ_QdSyRdiJZgAbI6xi1JgecGyTVxcU6rW_Zgq9IrJDr1wAaAh9FEALw_wcB 
+https://www.njcleanenergy.com/ev?gad_source=1&gclid=Cj0KCQiA_qG5BhDTARIsAA0UHSIhzHJDWQ_QdSyRdiJZgAbI6xi1JgecGyTVxcU6rW_Zgq9IrJDr1wAaAh9FEALw_wcB
 
 EV Residential Charging Program. EV Residential Charging Program -
 PSE&G. (n.d.).
@@ -437,10 +352,10 @@ EV promotions & tax credits.
 Muehlegger, E., & Rapson, D. S. (2022). Subsidizing low- and
 middle-income adoption of electric vehicles: Quasi-experimental evidence
 from California. Journal of Public Economics, 216(216), 104752.
-https://doi.org/10.1016/j.jpubeco.2022.104752 
+https://doi.org/10.1016/j.jpubeco.2022.104752
 
 New Jersey EV Rebates & Charging Incentives (2024, July). Qmerit.
-https://qmerit.com/location/new-jersey/ 
+https://qmerit.com/location/new-jersey/
 
 Orange & Rockland. (n.d.).
 https://www.oru.com/en/our-energy-future/electric-vehicles/new-jersey/residential-ev-drivers/charger-ready-for-home
